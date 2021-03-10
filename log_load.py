@@ -37,7 +37,7 @@ def main():
         os.makedirs(logs_home)
 
     lfname = logs_home + 'load_' + datetime.strftime(datetime.now(), "%Y-%m-%d_%H:%M:%S") + '.log'
-    log.setup_logger(lfname)
+    log.setup_custom_logger(lfname)
    
     init_general_PVs(global_PVs, variableDict)
     try:
@@ -47,8 +47,8 @@ def main():
             log.info('Load: %4.4f N (%4.4f V): %s' % (global_PVs['LoadNewton'].get(), global_PVs['LoadVoltage'].get(), h5fname_str))
             time.sleep(2)   
     except KeyboardInterrupt:
-    
-        print('interrupted!')
+        log.warning('interrupted!')
+        log.warning('Log information saved at: %s', lfname)
     
 if __name__ == '__main__':
     main()

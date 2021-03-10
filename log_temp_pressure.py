@@ -13,7 +13,7 @@ import numpy as np
 from epics import PV
 from datetime import datetime
 
-import logs
+import log
 
 variableDict = {
         'AD_Prefix': '2bmbSP1:',         # options: 1. PointGrey: '2bmbPG3:', 2. Gbe '2bmbSP1:' 
@@ -39,7 +39,7 @@ def main():
         os.makedirs(logs_home)
 
     lfname = logs_home + 'viktor_' + datetime.strftime(datetime.now(), "%Y-%m-%d_%H:%M:%S") + '.log'
-    log.setup_logger(lfname)
+    log.setup_custom_logger(lfname)
    
     init_general_PVs(global_PVs, variableDict)
     try:
@@ -51,8 +51,8 @@ def main():
             log.warning('Temperature: %4.4f C;  Pressure: %4.4f psi: %s' % (temp, pressure, h5fname_str))            
             time.sleep(5)   
     except KeyboardInterrupt:
-    
-        print('interrupted!')
+        log.warning('interrupted!')
+        log.warning('Log information saved at: %s', lfname)
   
 if __name__ == '__main__':
     main()
